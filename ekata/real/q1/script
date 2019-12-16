@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+
+def scale(instance_c, util)
+  if util > 60
+    a = instance_c * 2
+    return [a, true] if a < (2 * 10e8)
+  end
+
+  if util < 25
+    a = instance_c.fdiv(2).ceil
+    return [a, true] unless instance_c == 1
+  end
+
+  [instance_c, false]
+end
+
+def finalInstances(instances, averageUtil)
+  wait = false
+  ctr  = 1
+  secs = 10
+
+  averageUtil.each \
+  {|u|
+    if wait and ctr <= secs
+      ctr += 1
+      next
+    else
+      ctr  = 1
+      wait = false
+    end
+
+    instances, wait = scale instances, u
+  }
+
+  instances
+end
+
+instances = gets.strip.to_i
+
+averageUtil_count = gets.strip.to_i
+
+averageUtil = Array.new(averageUtil_count)
+
+averageUtil_count.times do |i|
+    averageUtil_item = gets.strip.to_i
+    averageUtil[i] = averageUtil_item
+end
+
+result = finalInstances instances, averageUtil
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+fptr.write result
+fptr.write "\n"
+
+fptr.close

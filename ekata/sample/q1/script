@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+
+def findNumber(arr, k)
+  answer = 'NO'
+  answer = 'YES' if arr.include? k
+
+  answer
+end
+
+arr_count = gets.strip.to_i
+
+arr = Array.new(arr_count)
+
+arr_count.times do |i|
+    arr_item = gets.strip.to_i
+    arr[i] = arr_item
+end
+
+k = gets.strip.to_i
+
+res = findNumber arr, k
+
+fptr.write res
+fptr.write "\n"
+
+fptr.close()

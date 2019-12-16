@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+def maxPerformances(a, d)
+  t_perfs = 0
+
+  puts '%s' % [a]
+  puts '%s' % [d]
+
+  a.each_with_index \
+  {|v, i|
+    break if i == a.count
+
+    if a[i] == a[i + 1]
+      unless a.include? a[a[i] + d[i]]
+        next
+      else
+        i = a.find_index(a[a[i] + d[i]])
+      end
+    else
+      i = a[i] + d[i]
+      t_perfs += 1
+    end
+  }
+
+  t_perfs
+end
+
+arrivals_count = gets.strip.to_i
+
+arrivals = Array.new(arrivals_count)
+
+arrivals_count.times do |i|
+  arrivals_item = gets.chomp.to_i
+  arrivals[i] = arrivals_item
+end
+
+durations_count = gets.chomp.to_i
+durations = Array.new(durations_count)
+
+durations_count.times do |i|
+  durations_item = gets.chomp.to_i
+  durations[i] = durations_item
+end
+
+result = maxPerformances arrivals, durations
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+fptr.write result
+fptr.write "\n"
+
+fptr.close

@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+max = 0
+tmp  = 0
+
+n, m = gets.chomp.split(' ').map(&:to_i)
+
+arr = Array.new(size=n + 1, 0)
+
+m.times \
+{
+  a, b, k = gets.chomp.split(' ').map(&:to_i)
+
+  arr[a - 1] += k
+
+  arr[b] -= k
+}
+
+arr.each \
+{|v|
+  tmp += v
+
+  max = tmp if max < tmp
+}
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+fptr.write max
+fptr.write "\n"
+
+fptr.close()

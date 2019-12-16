@@ -1,0 +1,12 @@
+    if a == arrivals[i + 1]
+      # overlap occurring
+      np = a + durations[i]
+
+      if    np == arrivals[i + 1]
+        t_perfs += 1
+        next
+      end
+    else
+      t_perfs += 1
+    end
+

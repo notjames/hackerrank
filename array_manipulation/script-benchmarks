@@ -1,0 +1,180 @@
+#!/usr/bin/env ruby
+
+require 'benchmark'
+
+# Complete the arrayManipulation function below.
+def arrayManipulation_1(n, queries)
+  inner   = [] << 0
+  largest = 0
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    a     = queries[i][0]
+    b     = queries[i][1]
+    k     = queries[i][2]
+
+    1.upto(n).each \
+    {|z|
+      if z >= a and z <= b
+        inner[z] = 0 if inner[z].nil?
+        inner[z] = inner[z] + k
+
+        largest = inner[z] if inner[z] > largest
+      end
+
+      break if z > b
+    }
+  }
+
+  largest
+end
+
+def arrayManipulation_2(n, queries)
+  inner   = [] << 0
+  largest = 0
+
+  for i in 0..queries.count - 1 do
+    a     = queries[i][0]
+    b     = queries[i][1]
+    k     = queries[i][2]
+
+    1.upto(n).each \
+    {|z|
+      if z >= a and z <= b
+        inner[z] = 0 if inner[z].nil?
+        inner[z] = inner[z] + k
+
+        largest = inner[z] if inner[z] > largest
+      end
+
+      break if z > b
+    }
+  end
+
+  largest
+end
+
+def arrayManipulation_3(n, queries)
+  arr = Array.new(size = n + 1, 0)
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    a = queries[i][0]
+    b = queries[i][1]
+    k = queries[i][2]
+
+    a.upto(b).each \
+    {|e|
+      arr[e + 1] = 0 if arr[e + 1].nil?
+      arr[e + 1] = arr[e + 1] + k
+    }
+  }
+
+  #arr.sort{|a,b| b <=> a}.first
+end
+
+def arrayManipulation_4(n, queries)
+  arr = Array.new(size = n + 1, 0)
+  largest = 0
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    a = queries[i][0]
+    b = queries[i][1]
+    k = queries[i][2]
+
+    a.upto(b).each \
+    {|z|
+      if z >= a and z <= b
+        arr[z] = 0 if arr[z].nil?
+        arr[z] = arr[z] + k
+
+        largest = arr[z] if arr[z] > largest
+      end
+
+      break if z > b
+    }
+  }
+
+  largest
+end
+
+n = 0
+queries = []
+max = 0
+
+Benchmark.bm do |benchmark|
+  benchmark.report('fastest') do
+    N, M = gets.chomp.split(' ').map(&:to_i)
+    tmp  = 0
+
+    # create array of zeros of length N + 1
+    arr = Array.new(N + 1, 0)
+
+    M.times do
+      # cycle through and get the inputs
+      start, finish, value = gets.chomp.split(' ').map(&:to_i)
+
+      # increment value at start of sequence
+      arr[start - 1] += value
+
+      # decrement value at first position after sequence
+      arr[finish] -= value
+    end
+
+    arr.each do |value|
+      # step through summing array
+      tmp += value
+
+      # capture the max value of tmp
+      max = tmp if max < tmp
+    end
+  end
+
+  benchmark.report('s') do
+    n       = N[0].to_i
+    m       = M[1].to_i
+
+    m.times do |i|
+      queries[i] = gets.chomp.split(' ').map(&:to_i)
+    end
+  end
+
+  benchmark.report('1') do
+    1.times \
+    {
+      arrayManipulation_1 n, queries
+    }
+  end
+
+  benchmark.report('2') do
+    1.times \
+    {
+      arrayManipulation_2 n, queries
+    }
+  end
+
+  benchmark.report('3') do
+    1.times \
+    {
+      arrayManipulation_3 n, queries
+    }
+  end
+
+  benchmark.report('4') do
+    1.times \
+    {
+      arrayManipulation_4 n, queries
+    }
+  end
+end
+
+puts max
+result = arrayManipulation_4 n, queries
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+fptr.write result
+fptr.write "\n"
+
+fptr.close()
+puts result

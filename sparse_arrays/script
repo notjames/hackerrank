@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+def getStrings
+  strings_count = gets.to_i
+  strings       = Array.new(strings_count)
+
+  strings_count.times \
+  {|i|
+    strings_item = gets.to_s.chomp
+    strings[i]   = strings_item
+  }
+
+  strings
+end
+
+def getQueries
+  queries_count = gets.to_i
+  queries       = Array.new(queries_count)
+
+  queries_count.times \
+  {|i|
+    queries_item = gets.to_s.chomp
+    queries[i]   = queries_item
+  }
+
+  queries
+end
+
+## Complete the matchingStrings function below.
+def matchingStrings(strings, queries)
+  #puts strings.inspect
+  ts = []
+
+  queries.each \
+  {|q|
+    ts << strings.grep(/^#{q}$/).count
+    #puts "\t%-5s => %s" % [q, ts]
+  }
+
+  ts
+end
+
+res  = matchingStrings getStrings, getQueries
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+fptr.write res.join("\n")
+fptr.write("\n")
+fptr.close()

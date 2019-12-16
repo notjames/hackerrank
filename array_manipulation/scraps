@@ -1,0 +1,124 @@
+  largest    = 0
+  range_low  = 0
+  range_high = n
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    a = queries[i][0]
+    b = queries[i][1]
+
+    puts 'a is %s' % [a]
+    puts 'b is %s' % [b]
+
+    range_low  = a if a > range_low
+    range_high = b if b < range_high
+
+    puts 'range_low is NOW %s' % [range_low]
+    puts 'range_high is NOW %s' % [range_high]
+  }
+
+  puts 'range low is %s' % [range_low]
+  puts 'range high is %s' % [range_high]
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    a     = queries[i][0]
+    b     = queries[i][1]
+    k     = queries[i][2]
+
+    next if a < range_low
+    next if b > range_high
+    largest = largest + k && next
+  }
+
+  largest
+
+
+def arrayManipulation_3(n, queries)
+  largest = 0
+  all_a   = []
+  all_b   = []
+
+  queries.map \
+  {|q|
+    all_a << q[0]
+    all_b << q[1]
+  }
+
+  min = all_a.sort{|a,b| a <=> b}.first
+  max = all_b.sort{|a,b| b <=> a}.first
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    a = queries[i][0]
+    b = queries[i][1]
+    k = queries[i][2]
+
+    puts 'seek between %s and %s in min(%s) to max(%s)' % [a,b,min,max]
+    if a >= min and b <= max
+      print '  %s = %s + %s === ' % [largest, largest, k]
+      largest = largest + k
+      puts '%i' % [largest]
+    end
+  }
+
+  largest
+end
+
+
+def arrayManipulation_3(n, queries)
+  largest = 0
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    k = queries[i][2]
+
+    if i == 0
+      largest = k
+      next
+    end
+
+    a = queries[i][0]
+    b = queries[i][1]
+    min = queries[i - 1][0]
+    max = queries[i - 1][1]
+
+    puts 'seek between %s and %s in min(%s) to max(%s)' % [a,b,min,max]
+    if (a >= min or b <= max) and !(b > max)
+      print '  %s = %s + %s === ' % [largest, largest, k]
+      largest = largest + k
+      puts '%i' % [largest]
+    end
+  }
+
+  largest
+end
+
+
+def arrayManipulation_3(n, queries)
+  largest = 0
+
+  0.upto(queries.count - 1).each \
+  {|i|
+    k = queries[i][2]
+
+    if i == 0
+      largest = k
+      next
+    end
+
+    a = queries[i][0]
+    b = queries[i][1]
+    min = queries[i - 1][0]
+    max = queries[i - 1][1]
+
+    puts 'seek between %s and %s in min(%s) to max(%s)' % [a,b,min,max]
+    if (a >= min or b <= max) and !(b > max)
+      print '  %s = %s + %s === ' % [largest, largest, k]
+      largest = largest + k
+      puts '%i' % [largest]
+    end
+  }
+
+  largest
+

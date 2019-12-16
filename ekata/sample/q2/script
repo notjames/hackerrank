@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+class Integer
+  def is_odd?
+    return false if self % 2 == 0
+    return true
+  end
+end
+
+def oddNumbers(l,r)
+  arr = []
+
+  l.upto(r).each \
+  {|i|
+    arr << i if i.is_odd?
+  }
+
+  arr
+end
+
+l = gets.strip.to_i
+
+r = gets.strip.to_i
+
+res = oddNumbers l, r
+
+fptr = File.open(ENV['OUTPUT_PATH'], 'w')
+fptr.write res.join "\n"
+fptr.write "\n"
+
+fptr.close()
